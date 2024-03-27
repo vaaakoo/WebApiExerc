@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\productApi3(IActionResult (T)).props" />
+</Project>
