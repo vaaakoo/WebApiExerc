@@ -1,0 +1,27 @@
+
+<div class="card">
+  <p-table [value]="todos" [tableStyle]="{ 'min-width': '50rem'}">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Complated</th>
+              <th>Title</th>
+              <th>Action</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-todo>
+          <tr [ngStyle]="{'text-decoration': todo.isCompleted ? 'line-through' : 'none'}" >
+            <td>
+              <!-- <input type="checkbox" [(ngModel)]="todo.isCompleted" (change)="updateTodo(todo)"> -->
+              <p-checkbox [(ngModel)]="todo.isCompleted" (onChange)="updateTodo(todo)" [binary]="true" inputId="binary" ></p-checkbox>
+            </td>
+              <td>{{ todo.text }}</td>
+              <td>
+                <button pButton type="button" (click)="deleteTodo(todo.id)" label="Delete" class="p-button-danger"></button>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+
+
+
