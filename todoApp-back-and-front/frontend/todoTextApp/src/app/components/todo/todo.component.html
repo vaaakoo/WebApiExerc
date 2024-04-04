@@ -1,0 +1,62 @@
+<div>
+  <label>Title:</label>
+  <input [(ngModel)]="newTodo.title" type="text">
+  <button (click)="addTodo()">Add Todo</button>
+</div>
+
+
+<div>
+  <label>Search:</label>
+  <p-autoComplete [(ngModel)]="searchTerm"  field="title" (completeMethod)="filterTodos($event)"
+     placeholder="Enter title"></p-autoComplete>
+  <button (click)="search()">Search</button>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let todo of filteredTodos; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ todo.id }}</td>
+      <td>
+        <ng-container *ngIf="editingTodoId !== todo.id; else editInput">
+          {{ todo.title }}
+        </ng-container>
+        <ng-template #editInput>
+          <input [(ngModel)]="todo.title" type="text">
+        </ng-template>
+      </td>
+      <td>
+        <ng-container *ngIf="editingTodoId !== todo.id; else editStatus">
+          {{ todo.isCompleted ? 'Completed' : 'Not Completed' }}
+        </ng-container>
+        <ng-template #editStatus>
+          <select [(ngModel)]="todo.isCompleted">
+            <option value="1">Completed</option>
+            <option value="0">Not Completed</option>
+          </select>
+        </ng-template>
+      </td>
+      <td>
+        <ng-container *ngIf="editingTodoId !== todo.id">
+          <button (click)="editTodo(todo.id)">Edit</button>
+        </ng-container>
+        <ng-container *ngIf="editingTodoId === todo.id; else editButtons">
+          <button (click)="saveTodoChanges(todo)">Save</button>
+          <button (click)="cancelEdit()">Cancel</button>
+        </ng-container>
+        <ng-template #editButtons>
+          <button (click)="deleteTodo(todo.id)">Delete</button>
+        </ng-template>
+      </td>
+    </tr>
+  </tbody>
+</table>
